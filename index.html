@@ -7,311 +7,185 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#1a1008;color:#e8d8a8;font-family:'Cinzel',Georgia,serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:10px 4px;}
-h1{font-size:clamp(1.2rem,4vw,2rem);color:#d4a840;text-shadow:2px 2px #8b5e10;letter-spacing:3px;margin:8px 0 2px;}
-.subtitle{font-size:clamp(0.6rem,2vw,0.85rem);color:#a08040;letter-spacing:4px;margin-bottom:12px;}
-#menu{display:flex;flex-direction:column;align-items:center;gap:16px;padding:30px;}
-.menu-btn{padding:14px 40px;font-family:'Cinzel',serif;font-size:1rem;font-weight:600;background:linear-gradient(145deg,#c8901a,#8b5e10);color:#fff8e0;border:2px solid #ffd040;border-radius:4px;cursor:pointer;letter-spacing:2px;transition:all .15s;min-width:240px;}
+body{background:#1a1008;color:#e8d8a8;font-family:'Cinzel',Georgia,serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:8px 4px 20px;}
+h1{font-size:clamp(1.1rem,3.5vw,1.8rem);color:#d4a840;text-shadow:2px 2px #8b5e10;letter-spacing:3px;margin:8px 0 2px;text-align:center;}
+.subtitle{font-size:clamp(0.55rem,1.8vw,0.8rem);color:#a08040;letter-spacing:4px;margin-bottom:10px;text-align:center;}
+.screen{display:none;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:600px;}
+.screen.active{display:flex;}
+#menu{gap:12px;padding:16px 10px;}
+.menu-desc{font-size:0.78rem;color:#a08040;letter-spacing:1px;text-align:center;max-width:320px;line-height:1.7;}
+.menu-btn{padding:13px 36px;font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;background:linear-gradient(145deg,#c8901a,#7a4e08);color:#fff8e0;border:2px solid #e0b020;border-radius:4px;cursor:pointer;letter-spacing:2px;transition:all .15s;min-width:230px;text-align:center;}
 .menu-btn:hover{background:linear-gradient(145deg,#e8a820,#a8700a);transform:translateY(-1px);}
-.menu-desc{font-size:0.75rem;color:#a08040;letter-spacing:1px;text-align:center;max-width:300px;}
-#pass-screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:20px;text-align:center;}
-#pass-screen h2{font-size:1.4rem;color:#d4a840;}
-#pass-screen p{color:#a08040;font-size:0.85rem;letter-spacing:2px;}
-#game-area{display:none;flex-direction:column;align-items:center;gap:8px;width:100%;}
-#status-bar{background:#2a1a08;border:1px solid #8b5e10;border-radius:4px;padding:6px 16px;font-size:clamp(0.65rem,2vw,0.85rem);color:#e8c870;letter-spacing:1px;text-align:center;min-width:min(580px,100%);}
-#combat-log{font-size:clamp(0.6rem,1.8vw,0.78rem);color:#c8a060;height:18px;text-align:center;letter-spacing:1px;}
-#board-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
-#board{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));width:min(580px,96vw);aspect-ratio:1;border:3px solid #8b5e10;box-shadow:0 0 30px rgba(212,168,64,0.2);}
-.cell{aspect-ratio:1;border:1px solid rgba(139,94,16,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:#c8a460;}
+#faction-screen{gap:16px;padding:16px 10px;}
+.faction-title{font-size:1rem;color:#d4a840;letter-spacing:2px;text-align:center;}
+.faction-subtitle{font-size:0.72rem;color:#a08040;text-align:center;letter-spacing:1px;}
+.faction-cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.faction-card{width:min(230px,42vw);padding:16px 12px;border-radius:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;border:2px solid transparent;transition:all .2s;}
+.faction-card.tribe{background:linear-gradient(160deg,#3a2010,#201008);border-color:#8b5e10;}
+.faction-card.tribe:hover,.faction-card.tribe.selected{border-color:#d4a840;box-shadow:0 0 20px rgba(212,168,64,0.4);}
+.faction-card.euro{background:linear-gradient(160deg,#0e1a30,#080e1c);border-color:#304060;}
+.faction-card.euro:hover,.faction-card.euro.selected{border-color:#7090c0;box-shadow:0 0 20px rgba(112,144,192,0.4);}
+.faction-icon{font-size:2.5rem;}
+.faction-name{font-size:0.85rem;font-weight:600;letter-spacing:2px;text-align:center;}
+.faction-card.tribe .faction-name{color:#d4a840;}
+.faction-card.euro .faction-name{color:#90b8e0;}
+.faction-desc{font-size:0.62rem;color:#8b8070;text-align:center;line-height:1.6;}
+#pass-screen{min-height:50vh;justify-content:center;}
+#pass-screen h2{font-size:1.3rem;color:#d4a840;text-align:center;}
+#pass-screen p{color:#a08040;font-size:0.8rem;letter-spacing:1px;text-align:center;}
+#game-area{gap:6px;}
+#status-bar{background:#2a1a08;border:1px solid #8b5e10;border-radius:4px;padding:5px 14px;font-size:clamp(0.6rem,1.8vw,0.82rem);color:#e8c870;letter-spacing:1px;text-align:center;width:min(590px,96vw);}
+#combat-log{font-size:clamp(0.58rem,1.6vw,0.75rem);color:#c8a060;min-height:16px;text-align:center;letter-spacing:1px;}
+#board{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));width:min(590px,96vw);aspect-ratio:1;border:3px solid #8b5e10;box-shadow:0 0 24px rgba(212,168,64,0.15);}
+.cell{aspect-ratio:1;border:1px solid rgba(139,94,16,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:#c8a460;}
 .cell.dark{background:#a07838;}
 .cell.lake{background:#1a3858;cursor:default;border-color:#1a3858;}
-.cell.lake::after{content:'≋';color:#2a5a88;font-size:clamp(12px,2.5vw,20px);position:absolute;}
-.cell.selected{outline:3px solid #ffffff;outline-offset:-3px;z-index:2;}
-.cell.valid-move{background:rgba(60,180,60,0.5)!important;}
-.cell.valid-move.dark{background:rgba(40,160,40,0.5)!important;}
-.cell.valid-move::before{content:'';position:absolute;inset:0;background:rgba(80,220,80,0.25);}
-.cell.enemy-zone{background:#9a7060;}
-.cell.enemy-zone.dark{background:#7a5040;}
-.cell.my-zone{background:#a08850;}
-.cell.my-zone.dark{background:#806830;}
-.piece{width:88%;height:88%;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1;user-select:none;border:2px solid rgba(0,0,0,0.4);transition:transform .1s;}
-.piece:hover{transform:scale(1.07);}
-.piece.p0{background:linear-gradient(160deg,#d4a020,#8b5e08);color:#fff8d0;border-color:#f0c030;}
-.piece.p1{background:linear-gradient(160deg,#285090,#102840);color:#c8e0ff;border-color:#4898d0;}
-.piece.hidden{background:linear-gradient(160deg,#2a1a06,#180e04);cursor:default;}
-.piece.hidden::after{content:'⚜';color:#6a4a10;font-size:clamp(10px,2.5vw,18px);position:absolute;}
-.piece-rank{font-size:clamp(9px,2.2vw,15px);font-weight:900;line-height:1;}
-.piece-name{font-size:clamp(4px,0.9vw,7px);text-align:center;line-height:1.1;margin-top:1px;letter-spacing:0;}
-#tray-area{display:none;flex-direction:column;align-items:center;gap:6px;width:min(580px,96vw);}
-#tray-label{font-size:0.75rem;color:#a08040;letter-spacing:2px;}
-#tray{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;background:#2a1a08;border:1px solid #8b5e10;border-radius:4px;padding:6px;width:100%;}
-.tray-piece{width:clamp(36px,8vw,50px);height:clamp(36px,8vw,50px);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:linear-gradient(160deg,#d4a020,#8b5e08);color:#fff8d0;border:2px solid #f0c030;font-family:'Cinzel',serif;position:relative;transition:transform .1s;}
-.tray-piece:hover{transform:scale(1.1);}
-.tray-piece.selected-tray{border-color:#ffffff;box-shadow:0 0 8px #ffffff;}
-.tray-piece .tp-rank{font-size:clamp(9px,2vw,13px);font-weight:900;}
-.tray-piece .tp-count{position:absolute;top:-4px;right:-4px;background:#d03010;color:#fff;font-size:8px;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;}
-.tray-piece.used{opacity:0.25;cursor:default;pointer-events:none;}
-#tray-buttons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
-.tb{padding:7px 18px;font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;border-radius:3px;cursor:pointer;letter-spacing:1px;border:1px solid;transition:all .15s;}
-.tb.gold{background:#8b5e10;color:#ffd040;border-color:#c8901a;}
-.tb.gold:hover{background:#a87020;}
-.tb.green{background:#1a5020;color:#80d080;border-color:#208040;}
-.tb.green:hover{background:#206830;}
-.tb.red{background:#501010;color:#e06060;border-color:#802020;}
-.tb.red:hover{background:#682020;}
-#legend-btn{font-size:0.7rem;color:#806830;cursor:pointer;letter-spacing:1px;text-decoration:underline;margin-top:2px;}
-#legend{display:none;background:#2a1a08;border:1px solid #8b5e10;border-radius:4px;padding:10px;width:min(580px,96vw);font-size:0.7rem;color:#c8a060;line-height:1.8;}
-#legend table{width:100%;border-collapse:collapse;}
-#legend td{padding:1px 6px;border-bottom:1px solid #3a2a10;}
-#legend td:first-child{color:#d4a840;font-weight:600;width:30px;text-align:center;}
-#legend td:nth-child(2){color:#e8d8a8;}
-#gameover{display:none;flex-direction:column;align-items:center;gap:14px;padding:20px;text-align:center;}
+.cell.lake::after{content:'≋';color:#2a5a88;font-size:clamp(10px,2vw,16px);position:absolute;}
+.cell.selected{outline:3px solid #fff;outline-offset:-3px;z-index:2;}
+.cell.valid-move::before{content:'';position:absolute;inset:0;background:rgba(80,220,80,0.35);z-index:1;}
+.cell.my-zone{background:#b09050;}.cell.my-zone.dark{background:#887028;}
+.cell.enemy-zone{background:#9a6858;}.cell.enemy-zone.dark{background:#7a4838;}
+.piece{width:90%;height:90%;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;user-select:none;transition:transform .1s;}
+.piece:hover{transform:scale(1.08);}
+.piece.tribe{background:linear-gradient(155deg,#c89818,#7a4e08);border:2px solid #e0b020;color:#fff8d0;}
+.piece.euro{background:linear-gradient(155deg,#2a4878,#101e38);border:2px solid #6080b0;color:#c8e0ff;}
+.piece.back-tribe{background:linear-gradient(155deg,#2e1c0a,#160c04);border:2px solid #6a4010;cursor:default;}
+.piece.back-euro{background:linear-gradient(155deg,#0e1828,#080e18);border:2px solid #304060;cursor:default;}
+.piece-emoji{font-size:clamp(12px,3vw,22px);line-height:1;pointer-events:none;}
+.piece-rank{font-size:clamp(6px,1.4vw,10px);font-weight:900;line-height:1;margin-top:1px;letter-spacing:0;pointer-events:none;}
+.piece.back-tribe::after{content:'⚜';color:#5a3808;font-size:clamp(12px,3vw,22px);position:absolute;}
+.piece.back-euro::after{content:'✚';color:#202840;font-size:clamp(10px,2.5vw,18px);position:absolute;}
+.cell.combat-flash{animation:combatpulse 0.4s ease-in-out 3;}
+@keyframes combatpulse{0%,100%{background:inherit;}50%{background:rgba(255,200,0,0.6)!important;}}
+#tray-area{display:none;flex-direction:column;align-items:center;gap:5px;width:min(590px,96vw);}
+#tray-label{font-size:0.7rem;color:#a08040;letter-spacing:1px;text-align:center;}
+#tray{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;background:#2a1a08;border:1px solid #8b5e10;border-radius:4px;padding:5px;width:100%;}
+.tp{width:clamp(34px,7.5vw,48px);height:clamp(34px,7.5vw,48px);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:transform .1s;font-family:'Cinzel',serif;}
+.tp.tribe-tp{background:linear-gradient(155deg,#c89818,#7a4e08);border:2px solid #e0b020;color:#fff8d0;}
+.tp.euro-tp{background:linear-gradient(155deg,#2a4878,#101e38);border:2px solid #6080b0;color:#c8e0ff;}
+.tp:hover{transform:scale(1.1);}.tp.sel{border-color:#fff!important;box-shadow:0 0 8px #fff;}.tp.used{opacity:.2;cursor:default;pointer-events:none;}
+.tp-emoji{font-size:clamp(10px,2.5vw,18px);line-height:1;}.tp-rank{font-size:clamp(5px,1.1vw,8px);font-weight:900;}
+.tp-badge{position:absolute;top:-4px;right:-4px;background:#b02010;color:#fff;font-size:7px;width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+#tray-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+.tb{padding:6px 14px;font-family:'Cinzel',serif;font-size:0.68rem;font-weight:600;border-radius:3px;cursor:pointer;letter-spacing:1px;border:1px solid;transition:all .15s;}
+.tb.gold{background:#7a4e08;color:#ffd040;border-color:#b07010;}.tb.gold:hover{background:#9a6410;}
+.tb.green{background:#163818;color:#70c070;border-color:#1a6028;}.tb.green:hover{background:#1e5020;}
+.tb.red{background:#401008;color:#e05050;border-color:#701818;}.tb.red:hover{background:#581818;}
+#legend-bar{width:min(590px,96vw);background:#1e1208;border:1px solid #5a3808;border-radius:4px;padding:6px 8px;margin-top:2px;}
+#legend-bar summary{font-size:0.68rem;color:#906820;letter-spacing:1px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;}
+#legend-bar summary::before{content:'▶';font-size:0.6rem;transition:transform .2s;}
+#legend-bar[open] summary::before{transform:rotate(90deg);}
+#legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:6px;}
+.lg-row{display:flex;align-items:baseline;gap:5px;padding:2px 0;border-bottom:1px solid #2a1a08;font-size:clamp(0.52rem,1.2vw,0.68rem);}
+.lg-icon{font-size:clamp(10px,2vw,14px);width:18px;text-align:center;flex-shrink:0;}
+.lg-rank{color:#d4a840;font-weight:700;width:14px;text-align:center;flex-shrink:0;font-size:clamp(0.55rem,1.2vw,0.7rem);}
+.lg-name{color:#e8d8a8;font-weight:600;white-space:nowrap;font-size:clamp(0.5rem,1.1vw,0.65rem);}
+.lg-desc{color:#7a6840;font-size:clamp(0.46rem,1vw,0.58rem);line-height:1.3;margin-left:2px;}
+#gameover{min-height:50vh;justify-content:center;gap:14px;text-align:center;}
 #gameover h2{font-size:1.6rem;color:#d4a840;}
-button{cursor:pointer;}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
+#gameover p{color:#a08040;max-width:280px;}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
 </style>
 </head>
 <body>
 <h1>AFRICAN STRATEGO</h1>
 <p class="subtitle">KINGDOM WARS</p>
-<div id="menu">
-  <p class="menu-desc">Command your kingdom's warriors.<br>Capture the enemy's Sacred Staff to win.</p>
-  <button class="menu-btn" onclick="startGame('ai')">⚔ VS COMPUTER</button>
-  <button class="menu-btn" onclick="startGame('2p')">⚔ 2 PLAYERS (SAME SCREEN)</button>
-  <span id="legend-btn" onclick="toggleLegend()">▼ View Piece Rankings</span>
-  <div id="legend">
-    <table>
-      <tr><td>K</td><td>Great King (10) — Strongest. Defeated only by the Shadow Spy.</td></tr>
-      <tr><td>9</td><td>High General — Defeats all except the Great King.</td></tr>
-      <tr><td>8</td><td>War Chief</td></tr>
-      <tr><td>7</td><td>Battle Elder</td></tr>
-      <tr><td>6</td><td>Sword Captain</td></tr>
-      <tr><td>5</td><td>Shield Bearer</td></tr>
-      <tr><td>4</td><td>Spear Warrior</td></tr>
-      <tr><td>3</td><td>Trap Breaker — Only piece that can disarm a Thornbush Trap.</td></tr>
-      <tr><td>2</td><td>Scout — Can move any number of squares in a straight line.</td></tr>
-      <tr><td>S</td><td>Shadow Spy — Defeats the Great King, but loses to all others.</td></tr>
-      <tr><td>🌿</td><td>Thornbush Trap — Cannot move. Destroys any attacker except Trap Breaker.</td></tr>
-      <tr><td>⚑</td><td>Sacred Staff — Cannot move. Capture this to win!</td></tr>
-    </table>
+<div id="menu" class="screen active">
+  <p class="menu-desc">Two sides. One sacred prize.<br>Capture the enemy's banner to claim victory.</p>
+  <button class="menu-btn" onclick="goFaction('ai')">⚔ VS COMPUTER</button>
+  <button class="menu-btn" onclick="goFaction('2p')">⚔ 2 PLAYERS (SAME SCREEN)</button>
+</div>
+<div id="faction-screen" class="screen">
+  <p class="faction-title" id="faction-title">CHOOSE YOUR SIDE</p>
+  <p class="faction-subtitle" id="faction-subtitle">You will command one side. Your opponent commands the other.</p>
+  <div class="faction-cards">
+    <div class="faction-card tribe" id="card-tribe" onclick="pickFaction('african')">
+      <div class="faction-icon">🦁</div>
+      <div class="faction-name">AFRICAN TRIBE</div>
+      <div class="faction-desc">Great Kings, War Chiefs, and Shadow Spies fight to defend the homeland and its Sacred Staff.</div>
+    </div>
+    <div class="faction-card euro" id="card-euro" onclick="pickFaction('european')">
+      <div class="faction-icon">🎖️</div>
+      <div class="faction-name">COLONIAL POWER</div>
+      <div class="faction-desc">Field Marshals, Generals, and Spies lead a colonial expedition to seize the Battle Flag.</div>
+    </div>
   </div>
+  <button class="menu-btn" id="faction-confirm" onclick="confirmFaction()" style="opacity:0.4;pointer-events:none;">CONFIRM SIDE →</button>
+  <button class="tb red" onclick="showScreen('menu')">← Back</button>
 </div>
-<div id="pass-screen">
-  <h2 id="pass-title">Pass to Player 2</h2>
-  <p id="pass-msg">Hand the device to the other player, then tap to continue.</p>
-  <button class="menu-btn" onclick="resumeAfterPass()">TAP WHEN READY</button>
+<div id="pass-screen" class="screen">
+  <h2 id="pass-title">Pass the Device</h2>
+  <p id="pass-msg">Hand to the other player, then tap ready.</p>
+  <button class="menu-btn" onclick="resumePass()">TAP WHEN READY</button>
 </div>
-<div id="game-area">
-  <div id="status-bar">Loading…</div>
+<div id="game-area" class="screen">
+  <div id="status-bar">—</div>
   <div id="combat-log">&nbsp;</div>
-  <div id="board-wrap"><div id="board"></div></div>
+  <div id="board"></div>
   <div id="tray-area">
-    <div id="tray-label">PLACE YOUR PIECES — Click a piece, then click the board</div>
+    <div id="tray-label">CLICK A PIECE BELOW, THEN CLICK THE BOARD TO PLACE IT</div>
     <div id="tray"></div>
     <div id="tray-buttons">
       <button class="tb gold" onclick="randomFill()">🎲 Random Fill</button>
-      <button class="tb red" onclick="clearSetup()">✕ Clear Board</button>
+      <button class="tb red" onclick="clearSetup()">✕ Clear</button>
       <button class="tb green" id="ready-btn" onclick="confirmSetup()" disabled>✓ Ready</button>
     </div>
   </div>
   <div class="btn-row" id="game-btns" style="display:none">
-    <button class="tb red" onclick="backToMenu()">✕ Quit</button>
+    <button class="tb red" onclick="showScreen('menu')">✕ Quit</button>
   </div>
+  <details id="legend-bar">
+    <summary>📋 Piece Guide</summary>
+    <div id="legend-grid"></div>
+  </details>
 </div>
-<div id="gameover">
-  <h2 id="go-title">Victory!</h2>
+<div id="gameover" class="screen">
+  <h2 id="go-title"></h2>
   <p id="go-msg"></p>
-  <button class="menu-btn" onclick="backToMenu()">PLAY AGAIN</button>
+  <button class="menu-btn" onclick="showScreen('menu')">PLAY AGAIN</button>
 </div>
 <script>
 const ROWS=10,COLS=10;
 const LAKES=new Set(['4,2','4,3','5,2','5,3','4,6','4,7','5,6','5,7']);
-const PD={'F':{name:'Sacred Staff',rank:-1,movable:false,count:1,sym:'⚑'},'B':{name:'Thornbush',rank:-1,movable:false,count:6,sym:'🌿'},'S':{name:'Shadow Spy',rank:1,movable:true,count:1,sym:'S'},'2':{name:'Scout',rank:2,movable:true,count:8,sym:'2'},'3':{name:'Trap Breaker',rank:3,movable:true,count:5,sym:'3'},'4':{name:'Spear Warrior',rank:4,movable:true,count:4,sym:'4'},'5':{name:'Shield Bearer',rank:5,movable:true,count:4,sym:'5'},'6':{name:'Sword Captain',rank:6,movable:true,count:4,sym:'6'},'7':{name:'Battle Elder',rank:7,movable:true,count:3,sym:'7'},'8':{name:'War Chief',rank:8,movable:true,count:2,sym:'8'},'9':{name:'High General',rank:9,movable:true,count:1,sym:'9'},'K':{name:'Great King',rank:10,movable:true,count:1,sym:'K'}};
-const PIECE_ORDER=['K','9','8','7','6','5','4','3','2','S','B','F'];
-let board,gameMode,currentPlayer,gamePhase,setupPlayer,selected,validMoves,traySelected,trayRemaining,aiThinking,pendingPassFor;
-function show(id){['menu','pass-screen','game-area','gameover'].forEach(s=>document.getElementById(s).style.display='none');document.getElementById(id).style.display='flex';}
-function toggleLegend(){const l=document.getElementById('legend');l.style.display=l.style.display==='block'?'none':'block';}
-function backToMenu(){show('menu');}
-function startGame(mode){
-  gameMode=mode;board=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
-  trayRemaining={0:Object.fromEntries(PIECE_ORDER.map(id=>[id,PD[id].count])),1:Object.fromEntries(PIECE_ORDER.map(id=>[id,PD[id].count]))};
-  selected=null;validMoves=[];traySelected=null;gamePhase='setup';setupPlayer=0;currentPlayer=0;aiThinking=false;
-  if(gameMode==='ai')aiSetupPieces(1);
-  show('game-area');document.getElementById('tray-area').style.display='flex';document.getElementById('game-btns').style.display='none';
-  buildBoard();buildTray(0);setStatus('PLAYER 1 — Place your 40 pieces in the highlighted zone');
-}
-function aiSetupPieces(player){
-  const rows=player===1?[0,1,2,3]:[6,7,8,9];const cells=[];
-  rows.forEach(r=>{for(let c=0;c<COLS;c++){if(!LAKES.has(r+','+c))cells.push({r,c});}});
-  shuffle(cells);const placement=[];PIECE_ORDER.forEach(id=>{for(let i=0;i<PD[id].count;i++)placement.push(id);});
-  shuffle(placement);const backRow=player===1?0:9;
-  const backCells=cells.filter(c=>c.r===backRow);const frontCells=cells.filter(c=>c.r!==(player===1?0:9));
-  const orderedCells=[...backCells,...frontCells];
-  placement.forEach((id,i)=>{if(i<orderedCells.length){const {r,c}=orderedCells[i];board[r][c]={id,owner:player,revealed:false};}});
-}
-function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
-function buildBoard(){
-  const boardEl=document.getElementById('board');boardEl.innerHTML='';
-  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
-    const cell=document.createElement('div');cell.className=cellClass(r,c);cell.dataset.r=r;cell.dataset.c=c;
-    cell.addEventListener('click',()=>onCellClick(r,c));boardEl.appendChild(cell);
-  }
-  renderPieces();
-}
-function cellClass(r,c){
-  let cls='cell';if((r+c)%2===1)cls+=' dark';
-  if(LAKES.has(r+','+c))cls+=' lake';
-  else if(gamePhase==='setup'&&r>=6)cls+=' my-zone';
-  else if(gamePhase==='setup'&&r<=3)cls+=' enemy-zone';
-  return cls;
-}
-function renderPieces(){
-  document.querySelectorAll('.cell').forEach(cell=>{
-    const r=+cell.dataset.r,c=+cell.dataset.c;
-    const old=cell.querySelector('.piece');if(old)old.remove();
-    cell.classList.remove('selected','valid-move');
-    const p=board[r][c];if(!p)return;
-    const el=document.createElement('div');
-    const isVisible=p.owner===0?(currentPlayer===0||p.revealed):(currentPlayer===1||p.revealed);
-    if(!isVisible){el.className='piece hidden';}
-    else{el.className='piece p'+p.owner;const sym=p.id==='F'?'⚑':p.id==='B'?'🌿':p.id;el.innerHTML='<div class="piece-rank">'+sym+'</div><div class="piece-name">'+PD[p.id].name+'</div>';}
-    cell.appendChild(el);
-  });
-  if(selected){const sc=document.querySelector('.cell[data-r="'+selected.r+'"][data-c="'+selected.c+'"]');if(sc)sc.classList.add('selected');}
-  validMoves.forEach(({r,c})=>{const mc=document.querySelector('.cell[data-r="'+r+'"][data-c="'+c+'"]');if(mc)mc.classList.add('valid-move');});
-}
-function buildTray(player){
-  const tray=document.getElementById('tray');tray.innerHTML='';
-  PIECE_ORDER.forEach(id=>{
-    const rem=trayRemaining[player][id];const el=document.createElement('div');
-    el.className='tray-piece'+(rem===0?' used':'')+(traySelected===id?' selected-tray':'');
-    el.innerHTML='<div class="tp-rank">'+(PD[id].sym==='🌿'?'🌿':PD[id].sym==='⚑'?'⚑':id)+'</div>'+(rem>1?'<div class="tp-count">'+rem+'</div>':'');
-    el.title=PD[id].name+' ('+rem+' left)';
-    if(rem>0)el.addEventListener('click',()=>selectTrayPiece(id));
-    tray.appendChild(el);
-  });
-  const total=Object.values(trayRemaining[player]).reduce((a,b)=>a+b,0);
-  document.getElementById('ready-btn').disabled=total>0;
-}
-function selectTrayPiece(id){traySelected=(traySelected===id)?null:id;selected=null;validMoves=[];buildTray(setupPlayer);renderPieces();}
-function onCellClick(r,c){if(LAKES.has(r+','+c))return;if(gamePhase==='setup')return onSetupClick(r,c);if(gamePhase==='play')return onPlayClick(r,c);}
-function onSetupClick(r,c){
-  const zone=setupPlayer===0?r>=6:r<=3;if(!zone){setLog('Place pieces in the highlighted zone only.');return;}
-  if(traySelected){
-    if(board[r][c]&&board[r][c].owner===setupPlayer)trayRemaining[setupPlayer][board[r][c].id]++;
-    if(trayRemaining[setupPlayer][traySelected]<=0)return;
-    board[r][c]={id:traySelected,owner:setupPlayer,revealed:false};trayRemaining[setupPlayer][traySelected]--;
-    if(trayRemaining[setupPlayer][traySelected]===0)traySelected=null;
-    buildTray(setupPlayer);renderPieces();
-  }else if(board[r][c]&&board[r][c].owner===setupPlayer){
-    trayRemaining[setupPlayer][board[r][c].id]++;board[r][c]=null;buildTray(setupPlayer);renderPieces();
-  }
-}
-function randomFill(){
-  const p=setupPlayer;const rows=p===0?[6,7,8,9]:[0,1,2,3];const empties=[];
-  rows.forEach(r=>{for(let c=0;c<COLS;c++){if(!LAKES.has(r+','+c)&&!board[r][c])empties.push({r,c});}});
-  shuffle(empties);const remaining=[];PIECE_ORDER.forEach(id=>{for(let i=0;i<trayRemaining[p][id];i++)remaining.push(id);});
-  shuffle(remaining);remaining.forEach((id,i)=>{if(i<empties.length){const {r,c}=empties[i];board[r][c]={id,owner:p,revealed:false};trayRemaining[p][id]--;}});
-  traySelected=null;buildTray(p);renderPieces();
-}
-function clearSetup(){
-  const p=setupPlayer;const rows=p===0?[6,7,8,9]:[0,1,2,3];
-  rows.forEach(r=>{for(let c=0;c<COLS;c++){if(board[r][c]&&board[r][c].owner===p){trayRemaining[p][board[r][c].id]++;board[r][c]=null;}}});
-  traySelected=null;buildTray(p);renderPieces();
-}
-function confirmSetup(){
-  if(gameMode==='ai'||setupPlayer===1){
-    gamePhase='play';currentPlayer=0;selected=null;validMoves=[];
-    document.getElementById('tray-area').style.display='none';document.getElementById('game-btns').style.display='flex';
-    renderPieces();setStatus("PLAYER 1's TURN — Select a piece to move");setLog('');
-  }else{
-    document.getElementById('tray-area').style.display='none';setupPlayer=1;pendingPassFor=1;
-    showPassScreen('Pass to Player 2','Player 2: tap when you are ready to place your pieces.');
-  }
-}
-function showPassScreen(title,msg){document.getElementById('pass-title').textContent=title;document.getElementById('pass-msg').textContent=msg;show('pass-screen');}
-function resumeAfterPass(){
-  show('game-area');
-  if(gamePhase==='setup'){document.getElementById('tray-area').style.display='flex';buildBoard();buildTray(1);setStatus('PLAYER 2 — Place your 40 pieces in the highlighted zone');}
-  else{document.getElementById('game-btns').style.display='flex';const pName=currentPlayer===0?'Player 1':'Player 2';setStatus(pName.toUpperCase()+"'s TURN — Select a piece to move");renderPieces();}
-  pendingPassFor=null;
-}
-function onPlayClick(r,c){
-  if(aiThinking)return;if(currentPlayer===1&&gameMode==='ai')return;
-  const piece=board[r][c];
-  if(validMoves.some(m=>m.r===r&&m.c===c)){executeMove(selected.r,selected.c,r,c);return;}
-  if(piece&&piece.owner===currentPlayer&&PD[piece.id].movable){
-    selected={r,c};validMoves=getValidMoves(r,c);
-    if(validMoves.length===0)setLog(PD[piece.id].name+' has no valid moves.');else setLog('');renderPieces();
-  }else{selected=null;validMoves=[];renderPieces();}
-}
-function getValidMoves(r,c){
-  const piece=board[r][c];if(!piece||!PD[piece.id].movable)return[];
-  const isScout=piece.id==='2';const moves=[];
-  [[0,1],[0,-1],[1,0],[-1,0]].forEach(([dr,dc])=>{
-    if(isScout){
-      let nr=r+dr,nc=c+dc;
-      while(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&!LAKES.has(nr+','+nc)){
-        if(board[nr][nc]){if(board[nr][nc].owner!==piece.owner)moves.push({r:nr,c:nc});break;}
-        moves.push({r:nr,c:nc});nr+=dr;nc+=dc;
-      }
-    }else{
-      const nr=r+dr,nc=c+dc;
-      if(nr<0||nr>=ROWS||nc<0||nc>=COLS||LAKES.has(nr+','+nc))return;
-      if(board[nr][nc]&&board[nr][nc].owner===piece.owner)return;
-      moves.push({r:nr,c:nc});
-    }
-  });
-  return moves;
-}
-function executeMove(fr,fc,tr,tc,isAI=false){
-  const atk=board[fr][fc];const def=board[tr][tc];
-  if(!def){board[tr][tc]={...atk};board[fr][fc]=null;setLog('');}
-  else{
-    atk.revealed=true;def.revealed=true;const result=combat(atk,def);
-    if(result==='flag'){board[tr][tc]=null;board[fr][fc]=null;setLog(PD[atk.id].name+' captured the Sacred Staff!');setTimeout(()=>endGame(atk.owner),800);renderPieces();return;}
-    else if(result==='atk'){board[tr][tc]={...atk,revealed:true};board[fr][fc]=null;setLog(PD[atk.id].name+' defeats '+PD[def.id].name+'!');}
-    else if(result==='def'){board[fr][fc]=null;setLog(PD[def.id].name+' defeats '+PD[atk.id].name+'!');}
-    else{board[fr][fc]=null;board[tr][tc]=null;setLog('Both '+PD[atk.id].name+' and '+PD[def.id].name+' eliminated!');}
-  }
-  selected=null;validMoves=[];renderPieces();
-  const nextP=1-atk.owner;
-  if(!hasAnyMoves(nextP)){setLog('No moves left!');setTimeout(()=>endGame(atk.owner),800);return;}
-  currentPlayer=nextP;
-  if(gameMode==='2p'&&!isAI){
-    const pName=currentPlayer===0?'Player 1':'Player 2';
-    setTimeout(()=>{document.getElementById('game-area').style.display='none';showPassScreen('Pass to '+pName,pName+': tap when ready to play your turn.');},1200);
-  }else if(gameMode==='ai'&&currentPlayer===1){setStatus('AI is thinking…');aiThinking=true;setTimeout(doAIMove,700);}
-  else{const pName=currentPlayer===0?'Player 1':'Player 2';setStatus(pName.toUpperCase()+"'s TURN — Select a piece to move");}
-}
-function combat(atk,def){
-  if(def.id==='F')return 'flag';if(def.id==='B')return atk.id==='3'?'atk':'def';
-  if(atk.id==='S'&&def.id==='K')return 'atk';if(atk.id==='B')return 'def';
-  if(PD[atk.id].rank>PD[def.id].rank)return 'atk';if(PD[atk.id].rank<PD[def.id].rank)return 'def';return 'both';
-}
-function hasAnyMoves(player){for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const p=board[r][c];if(p&&p.owner===player&&PD[p.id].movable&&getValidMoves(r,c).length>0)return true;}return false;}
-function endGame(winner){
-  gamePhase='over';document.getElementById('gameover').style.display='flex';document.getElementById('game-area').style.display='none';
-  const wName=gameMode==='ai'?(winner===0?'You win!':'The AI wins!'):'Player '+(winner+1)+' wins!';
-  document.getElementById('go-title').textContent=wName;document.getElementById('go-msg').textContent='The Sacred Staff has been captured. The kingdom falls.';
-}
-function doAIMove(){
-  aiThinking=false;if(gamePhase!=='play'||currentPlayer!==1)return;
-  const moves=[];
-  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const p=board[r][c];if(p&&p.owner===1&&PD[p.id].movable)getValidMoves(r,c).forEach(m=>moves.push({fr:r,fc:c,tr:m.r,tc:m.c}));}
-  if(!moves.length){endGame(0);return;}
-  const scored=moves.map(m=>{
-    let score=Math.random()*10;const atk=board[m.fr][m.fc];const def=board[m.tr][m.tc];
-    score+=(m.fr-m.tr)*2;
-    if(def){if(def.id==='F')score+=10000;else if(def.revealed){const r=combat(atk,def);if(r==='atk')score+=50+PD[def.id].rank*5;if(r==='def')score-=40;}else score+=15;}
-    if(atk.id==='2'&&!def)score+=3;return{...m,score};
-  });
-  scored.sort((a,b)=>b.score-a.score);
-  const pick=scored[Math.floor(Math.random()*Math.min(3,scored.length))];
-  executeMove(pick.fr,pick.fc,pick.tr,pick.tc,true);setStatus("YOUR TURN (Player 1) — Select a piece to move");
-}
-function setStatus(msg){document.getElementById('status-bar').textContent=msg;}
-function setLog(msg){document.getElementById('combat-log').textContent=msg||' ';}
+const PIECE_IDS=['K','9','8','7','6','5','4','3','2','S','B','F'];
+const BASE={'K':{rank:10,movable:true,count:1},'9':{rank:9,movable:true,count:1},'8':{rank:8,movable:true,count:2},'7':{rank:7,movable:true,count:3},'6':{rank:6,movable:true,count:4},'5':{rank:5,movable:true,count:4},'4':{rank:4,movable:true,count:4},'3':{rank:3,movable:true,count:5,special:'miner'},'2':{rank:2,movable:true,count:8,special:'scout'},'S':{rank:1,movable:true,count:1,special:'spy'},'B':{rank:-1,movable:false,count:6,special:'bomb'},'F':{rank:-1,movable:false,count:1,special:'flag'}};
+const FACTIONS={african:{name:'African Tribe',short:'TRIBE',style:{cls:'tribe',backCls:'back-tribe',tpCls:'tribe-tp'},pieces:{'K':{name:'Great King',emoji:'🦁',sym:'K',desc:'Mightiest warrior — only the Shadow Spy can fell him'},'9':{name:'High General',emoji:'🦅',sym:'9',desc:'Commands the full army — defeats all but the King'},'8':{name:'War Chief',emoji:'🏺',sym:'8',desc:'Senior battlefield commander — 2 in your army'},'7':{name:'Battle Elder',emoji:'🥁',sym:'7',desc:'Veteran elder — wise and dangerous — 3 in your army'},'6':{name:'Sword Captain',emoji:'⚔️',sym:'6',desc:'Leads a unit into battle — 4 in your army'},'5':{name:'Shield Bearer',emoji:'🛡️',sym:'5',desc:'Defensive fighter — holds the line — 4 in your army'},'4':{name:'Spear Warrior',emoji:'🏹',sym:'4',desc:'Standard tribesman — loyal and brave — 4 in your army'},'3':{name:'Trap Breaker',emoji:'🪓',sym:'3',desc:'ONLY piece that can disarm a Thornbush Trap — 5 in your army'},'2':{name:'Scout',emoji:'🏃',sym:'2',desc:'Moves ANY number of squares in a straight line — 8 in your army'},'S':{name:'Shadow Spy',emoji:'🥷',sym:'S',desc:'Loses to everyone — but defeats the Great King alone'},'B':{name:'Thornbush Trap',emoji:'🌿',sym:'🌿',desc:'Cannot move — destroys every attacker except Trap Breaker — 6 in your army'},'F':{name:'Sacred Staff',emoji:'✨',sym:'⚑',desc:'Cannot move — PROTECT THIS — the enemy captures it to win'}}},european:{name:'Colonial Power',short:'CROWN',style:{cls:'euro',backCls:'back-euro',tpCls:'euro-tp'},pieces:{'K':{name:'Field Marshal',emoji:'🎖️',sym:'M',desc:'Supreme commander — only the Spy can defeat him'},'9':{name:'General',emoji:'⭐',sym:'9',desc:'Commands the expedition — defeats all but the Marshal'},'8':{name:'Colonel',emoji:'🦅',sym:'8',desc:'Regimental commander — 2 in your force'},'7':{name:'Major',emoji:'🪖',sym:'7',desc:'Field-grade officer — steady and experienced — 3 in your force'},'6':{name:'Captain',emoji:'⚜️',sym:'6',desc:'Company commander — 4 in your force'},'5':{name:'Lieutenant',emoji:'🏅',sym:'5',desc:'Junior officer — dependable — 4 in your force'},'4':{name:'Sergeant',emoji:'💂',sym:'4',desc:'Backbone of the army — 4 in your force'},'3':{name:'Sapper',emoji:'⛏️',sym:'3',desc:'Combat engineer — ONLY unit that can disarm Land Mines — 5 in your force'},'2':{name:'Scout',emoji:'🔭',sym:'2',desc:'Moves ANY number of squares in a straight line — 8 in your force'},'S':{name:'Spy',emoji:'🕵️',sym:'S',desc:'Loses to everyone — but defeats the Field Marshal alone'},'B':{name:'Land Mine',emoji:'💣',sym:'💣',desc:'Cannot move — destroys every attacker except the Sapper — 6 in your force'},'F':{name:'Battle Flag',emoji:'🚩',sym:'⚑',desc:'Cannot move — PROTECT THIS — the enemy captures it to win'}}}};
+let board,gameMode,currentPlayer,gamePhase,setupPlayer,selected,validMoves,traySelected,trayRemaining,busy=false,p0Faction,p1Faction,pendingPassPhase,_pendingMode,_pickedFaction=null;
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goFaction(mode){_pendingMode=mode;document.getElementById('faction-title').textContent=mode==='ai'?'CHOOSE YOUR SIDE':'PLAYER 1 — CHOOSE YOUR SIDE';document.getElementById('faction-subtitle').textContent=mode==='ai'?'The computer will command the other faction.':'Player 2 will automatically play the other faction.';document.getElementById('card-tribe').classList.remove('selected');document.getElementById('card-euro').classList.remove('selected');document.getElementById('faction-confirm').style.opacity='0.4';document.getElementById('faction-confirm').style.pointerEvents='none';_pickedFaction=null;showScreen('faction-screen');}
+function pickFaction(fac){_pickedFaction=fac;document.getElementById('card-tribe').classList.toggle('selected',fac==='african');document.getElementById('card-euro').classList.toggle('selected',fac==='european');document.getElementById('faction-confirm').style.opacity='1';document.getElementById('faction-confirm').style.pointerEvents='auto';}
+function confirmFaction(){if(!_pickedFaction)return;gameMode=_pendingMode;p0Faction=_pickedFaction;p1Faction=_pickedFaction==='african'?'european':'african';initGame();}
+function initGame(){board=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));trayRemaining={0:Object.fromEntries(PIECE_IDS.map(id=>[id,BASE[id].count])),1:Object.fromEntries(PIECE_IDS.map(id=>[id,BASE[id].count]))};selected=null;validMoves=[];traySelected=null;busy=false;gamePhase='setup';setupPlayer=0;currentPlayer=0;if(gameMode==='ai')aiPlace(1);showScreen('game-area');document.getElementById('tray-area').style.display='flex';document.getElementById('game-btns').style.display='none';buildBoard();buildLegend();buildTray(0);setStatus(factionName(0).toUpperCase()+' — Place your 40 pieces in your zone (highlighted)');}
+function factionName(p){return FACTIONS[p===0?p0Faction:p1Faction].name;}
+function factionData(p){return FACTIONS[p===0?p0Faction:p1Faction];}
+function pieceName(p,id){return factionData(p).pieces[id].name;}
+function aiPlace(player){const rows=player===1?[0,1,2,3]:[6,7,8,9];const cells=[];rows.forEach(r=>{for(let c=0;c<COLS;c++)if(!LAKES.has(r+','+c))cells.push({r,c});});shuffle(cells);const pieces=[];PIECE_IDS.forEach(id=>{for(let i=0;i<BASE[id].count;i++)pieces.push(id);});shuffle(pieces);const back=player===1?0:9;const backC=cells.filter(c=>c.r===back),frontC=cells.filter(c=>c.r!==back);const ordered=[...backC,...frontC];pieces.forEach((id,i)=>{if(i<ordered.length){const{r,c}=ordered[i];board[r][c]={id,owner:player,revealed:false};}});}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function buildBoard(){const el=document.getElementById('board');el.innerHTML='';for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const cell=document.createElement('div');cell.className=baseCellClass(r,c);cell.dataset.r=r;cell.dataset.c=c;cell.addEventListener('click',()=>onCell(r,c));el.appendChild(cell);}renderAll();}
+function baseCellClass(r,c){let cls='cell';if((r+c)%2)cls+=' dark';if(LAKES.has(r+','+c))cls+=' lake';else if(gamePhase==='setup'){if(r>=6)cls+=' my-zone';else if(r<=3)cls+=' enemy-zone';}return cls;}
+function renderAll(){document.querySelectorAll('#board .cell').forEach(cell=>{const r=+cell.dataset.r,c=+cell.dataset.c;cell.className=baseCellClass(r,c);const old=cell.querySelector('.piece');if(old)old.remove();const p=board[r][c];if(!p)return;const el=document.createElement('div');if(isPieceVisible(p)){const fd=factionData(p.owner);const pd=fd.pieces[p.id];el.className='piece '+fd.style.cls;el.innerHTML='<div class="piece-emoji">'+pd.emoji+'</div><div class="piece-rank">'+pd.sym+'</div>';}else{el.className='piece '+factionData(p.owner).style.backCls;}cell.appendChild(el);});if(selected){const sc=document.querySelector('#board .cell[data-r="'+selected.r+'"][data-c="'+selected.c+'"]');if(sc)sc.classList.add('selected');}validMoves.forEach(({r,c})=>{const mc=document.querySelector('#board .cell[data-r="'+r+'"][data-c="'+c+'"]');if(mc)mc.classList.add('valid-move');});}
+function isPieceVisible(p){if(gameMode==='ai')return p.owner===0||p.revealed;return p.owner===currentPlayer||p.revealed;}
+function buildTray(player){const fd=factionData(player);const tray=document.getElementById('tray');tray.innerHTML='';PIECE_IDS.forEach(id=>{const rem=trayRemaining[player][id];const pd=fd.pieces[id];const el=document.createElement('div');el.className='tp '+fd.style.tpCls+(rem===0?' used':'')+(traySelected===id?' sel':'');el.innerHTML='<div class="tp-emoji">'+pd.emoji+'</div><div class="tp-rank">'+pd.sym+'</div>'+(rem>1?'<div class="tp-badge">'+rem+'</div>':'');el.title=pd.name+' ('+rem+' left) — '+pd.desc;if(rem>0)el.addEventListener('click',()=>{traySelected=(traySelected===id)?null:id;buildTray(setupPlayer);renderAll();});tray.appendChild(el);});const total=Object.values(trayRemaining[player]).reduce((a,b)=>a+b,0);document.getElementById('ready-btn').disabled=total>0;}
+function onCell(r,c){if(LAKES.has(r+','+c)||busy)return;if(gamePhase==='setup')setupClick(r,c);else if(gamePhase==='play')playClick(r,c);}
+function setupClick(r,c){const myZone=setupPlayer===0?r>=6:r<=3;if(!myZone){setLog('Only place pieces in your highlighted zone.');return;}if(traySelected){if(board[r][c]&&board[r][c].owner===setupPlayer)trayRemaining[setupPlayer][board[r][c].id]++;if(trayRemaining[setupPlayer][traySelected]<=0)return;board[r][c]={id:traySelected,owner:setupPlayer,revealed:false};trayRemaining[setupPlayer][traySelected]--;if(trayRemaining[setupPlayer][traySelected]===0)traySelected=null;buildTray(setupPlayer);renderAll();}else if(board[r][c]&&board[r][c].owner===setupPlayer){trayRemaining[setupPlayer][board[r][c].id]++;board[r][c]=null;buildTray(setupPlayer);renderAll();}}
+function randomFill(){const p=setupPlayer,rows=p===0?[6,7,8,9]:[0,1,2,3];const empties=[];rows.forEach(r=>{for(let c=0;c<COLS;c++)if(!LAKES.has(r+','+c)&&!board[r][c])empties.push({r,c});});shuffle(empties);const rem=[];PIECE_IDS.forEach(id=>{for(let i=0;i<trayRemaining[p][id];i++)rem.push(id);});shuffle(rem);rem.forEach((id,i)=>{if(i<empties.length){const{r,c}=empties[i];board[r][c]={id,owner:p,revealed:false};trayRemaining[p][id]--;}});traySelected=null;buildTray(p);renderAll();}
+function clearSetup(){const p=setupPlayer,rows=p===0?[6,7,8,9]:[0,1,2,3];rows.forEach(r=>{for(let c=0;c<COLS;c++){if(board[r][c]&&board[r][c].owner===p){trayRemaining[p][board[r][c].id]++;board[r][c]=null;}}});traySelected=null;buildTray(p);renderAll();}
+function confirmSetup(){if(gameMode==='ai'||setupPlayer===1){startPlay();}else{document.getElementById('tray-area').style.display='none';setupPlayer=1;pendingPassPhase='setup2';showPassScreen('Pass to '+factionName(1),factionData(1).name+' player: tap when ready to place your pieces.');}}
+function startPlay(){gamePhase='play';currentPlayer=0;selected=null;validMoves=[];document.getElementById('tray-area').style.display='none';document.getElementById('game-btns').style.display='flex';renderAll();setStatus(factionName(0).toUpperCase()+' (You) — Select a piece to move');setLog('');}
+function showPassScreen(title,msg){document.getElementById('pass-title').textContent=title;document.getElementById('pass-msg').textContent=msg;showScreen('pass-screen');}
+function resumePass(){showScreen('game-area');if(pendingPassPhase==='setup2'){document.getElementById('tray-area').style.display='flex';buildBoard();buildTray(1);setStatus(factionName(1).toUpperCase()+' — Place your 40 pieces in your zone (highlighted)');}else if(pendingPassPhase==='play'){document.getElementById('game-btns').style.display='flex';renderAll();setStatus(factionName(currentPlayer).toUpperCase()+' — Select a piece to move');}pendingPassPhase=null;}
+function playClick(r,c){if(gameMode==='ai'&&currentPlayer===1)return;const p=board[r][c];if(validMoves.some(m=>m.r===r&&m.c===c)){doMove(selected.r,selected.c,r,c,false);return;}if(p&&p.owner===currentPlayer&&BASE[p.id].movable){selected={r,c};validMoves=getMoves(r,c);setLog(validMoves.length===0?pieceName(currentPlayer,p.id)+' has no valid moves.':'');renderAll();}else{selected=null;validMoves=[];renderAll();}}
+function getMoves(r,c){const p=board[r][c];if(!p||!BASE[p.id].movable)return[];const scout=p.id==='2';const moves=[];[[0,1],[0,-1],[1,0],[-1,0]].forEach(([dr,dc])=>{if(scout){let nr=r+dr,nc=c+dc;while(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&!LAKES.has(nr+','+nc)){if(board[nr][nc]){if(board[nr][nc].owner!==p.owner)moves.push({r:nr,c:nc});break;}moves.push({r:nr,c:nc});nr+=dr;nc+=dc;}}else{const nr=r+dr,nc=c+dc;if(nr<0||nr>=ROWS||nc<0||nc>=COLS||LAKES.has(nr+','+nc))return;if(board[nr][nc]&&board[nr][nc].owner===p.owner)return;moves.push({r:nr,c:nc});}});return moves;}
+function doMove(fr,fc,tr,tc,isAI){const atk={...board[fr][fc]};const def=board[tr][tc]?{...board[tr][tc]}:null;selected=null;validMoves=[];if(!def){board[tr][tc]={...atk,revealed:false};board[fr][fc]=null;renderAll();setLog('');afterMove(atk.owner,isAI);return;}busy=true;board[fr][fc]={...atk,revealed:true};board[tr][tc]={...def,revealed:true};renderAll();flashCell(fr,fc);flashCell(tr,tc);const result=resolveCombat(atk,def);const an=pieceName(atk.owner,atk.id);const dn=pieceName(def.owner,def.id);if(result==='flag')setLog(an+' captures the '+dn+'!');else if(result==='atk')setLog(an+' defeats '+dn+'!');else if(result==='def')setLog(dn+' repels '+an+'!');else setLog(an+' and '+dn+' both fall!');setTimeout(()=>{board[fr][fc]=null;if(result==='flag'){board[tr][tc]=null;busy=false;endGame(atk.owner);return;}else if(result==='atk'){board[tr][tc]={...atk,revealed:false};}else if(result==='def'){board[tr][tc]={...def,revealed:false};}else{board[tr][tc]=null;}busy=false;renderAll();if(!hasMoves(1-atk.owner)){endGame(atk.owner);return;}afterMove(atk.owner,isAI);},2000);}
+function resolveCombat(atk,def){if(def.id==='F')return'flag';if(def.id==='B')return atk.id==='3'?'atk':'def';if(atk.id==='S'&&def.id==='K')return'atk';if(atk.id==='B')return'def';if(BASE[atk.id].rank>BASE[def.id].rank)return'atk';if(BASE[atk.id].rank<BASE[def.id].rank)return'def';return'both';}
+function flashCell(r,c){const el=document.querySelector('#board .cell[data-r="'+r+'"][data-c="'+c+'"]');if(el){el.classList.add('combat-flash');setTimeout(()=>el.classList.remove('combat-flash'),1200);}}
+function hasMoves(player){for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const p=board[r][c];if(p&&p.owner===player&&BASE[p.id].movable&&getMoves(r,c).length>0)return true;}return false;}
+function afterMove(donePlayer,isAI){const next=1-donePlayer;currentPlayer=next;if(gameMode==='ai'&&next===1){setStatus('AI is thinking…');busy=true;setTimeout(doAI,800);}else if(gameMode==='2p'&&!isAI){const nm=factionName(next);setTimeout(()=>{showScreen('pass-screen');document.getElementById('pass-title').textContent='Pass to '+nm;document.getElementById('pass-msg').textContent=nm+': tap when ready to play your turn.';pendingPassPhase='play';},1400);}else{setStatus(factionName(currentPlayer).toUpperCase()+' — Select a piece to move');}}
+function doAI(){busy=false;if(gamePhase!=='play'||currentPlayer!==1)return;const moves=[];for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const p=board[r][c];if(p&&p.owner===1&&BASE[p.id].movable)getMoves(r,c).forEach(m=>moves.push({fr:r,fc:c,tr:m.r,tc:m.c}));}if(!moves.length){endGame(0);return;}const scored=moves.map(m=>{let s=Math.random()*8;const a=board[m.fr][m.fc],d=board[m.tr][m.tc];s+=(m.fr-m.tr)*2;if(d){if(d.id==='F')s+=9999;else if(d.revealed){const r=resolveCombat(a,d);if(r==='atk')s+=40+BASE[d.id].rank*4;if(r==='def')s-=30;}else s+=12;}if(a.id==='2'&&!d)s+=4;return{...m,s};});scored.sort((a,b)=>b.s-a.s);const pick=scored[Math.floor(Math.random()*Math.min(3,scored.length))];doMove(pick.fr,pick.fc,pick.tr,pick.tc,true);if(gamePhase==='play')setStatus(factionName(0).toUpperCase()+' (You) — Select a piece to move');}
+function endGame(winner){gamePhase='over';let title,msg;if(gameMode==='ai'){if(winner===0){title='Victory!';msg='The '+factionName(0)+' triumphs!';}else{title='Defeat.';msg='The '+factionName(1)+' has seized your banner.';}}else{title=factionName(winner)+' Wins!';msg='The sacred banner has been captured.';}document.getElementById('go-title').textContent=title;document.getElementById('go-msg').textContent=msg;setTimeout(()=>showScreen('gameover'),800);}
+function buildLegend(){const grid=document.getElementById('legend-grid');grid.innerHTML='';const fd=factionData(0);PIECE_IDS.forEach(id=>{const pd=fd.pieces[id];const div=document.createElement('div');div.className='lg-row';div.innerHTML='<span class="lg-icon">'+pd.emoji+'</span><span class="lg-rank">'+pd.sym+'</span><span class="lg-name">'+pd.name+'</span><span class="lg-desc"> — '+pd.desc+'</span>';grid.appendChild(div);});}
+function setStatus(t){document.getElementById('status-bar').textContent=t;}
+function setLog(t){document.getElementById('combat-log').textContent=t||' ';}
 </script>
 </body>
 </html>
